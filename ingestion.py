@@ -41,11 +41,15 @@ async def main():
 
     res = tavily_crawl.invoke({
         "url": "https://python.langchain.com/",
-        "max_depth": 5,
+        "max_depth": 1,
         "extract_depth": "advanced",
+        # "instructions": "Extract all documentation of Memory modules, including all submodules and their documentation.",
     })
     print(res)
+    all_docs: List[Document] = [Document(page_content=result['raw_content'], metadata={"source": result['url']}) for result in res['results']] 
     log_success("TaviliCrawl: successfully crawled documentation")
+    print(all_docs)
 
 if __name__ == "__main__":
     asyncio.run(main())
+ 
